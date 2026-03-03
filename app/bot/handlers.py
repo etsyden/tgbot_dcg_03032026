@@ -57,7 +57,7 @@ async def cmd_start(message: Message, state: FSMContext, db: AsyncSession):
         await db.commit()
         await db.refresh(user)
         # Notify admin
-        await notify_admin(db, user)
+        asyncio.create_task(notify_admin(db, user))
 
     keyboard = await get_main_menu_builder(db)
     await message.answer(

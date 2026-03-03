@@ -11,12 +11,18 @@ import app.bot.main  # Import bot config to register middleware/routers
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     import asyncio
+    print("API Starting up...")
     # Run webhook setup in background so it doesn't block startup
     asyncio.create_task(setup_webhook())
     yield
+    print("API Shutting down...")
 
 
 app = FastAPI(title="Dental Clinic Bot API", lifespan=lifespan)
+
+@app.get("/ping")
+async def ping():
+    return {"status": "ok", "message": "pong"}
 
 app.add_middleware(
     CORSMiddleware,
