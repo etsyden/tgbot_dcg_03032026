@@ -2,7 +2,7 @@ import json
 import base64
 import asyncio
 from aiogram import Router, F
-from aiogram.types import Message, Contact
+from aiogram.types import Message, Contact, CallbackQuery
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -72,7 +72,8 @@ async def cmd_menu(message: Message, db: AsyncSession):
     await message.answer("Главное меню:", reply_markup=keyboard)
 
 @router.callback_query(F.data == "get_consultation")
-async def get_consultation_callback(callback: Message, state: FSMContext):
+async def get_consultation_callback(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
     await callback.message.answer(
         "Пожалуйста, поделитесь вашим номером телефона:",
         reply_markup={

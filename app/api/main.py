@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 
 from app.api import users, groups, mailings, menu
 from app.bot.webhook import webhook_router, setup_webhook
+from app.admin.main import admin_app
 
 
 @asynccontextmanager
@@ -11,8 +12,8 @@ async def lifespan(app: FastAPI):
     from app.config import get_settings
 
     settings = get_settings()
-    if settings.WEBHOOK_URL:
-        await setup_webhook()
+    # Always try to setup webhook if URL is provided
+    await setup_webhook()
     yield
 
 
@@ -25,6 +26,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/admin", admin_app)
 
 app.include_router(webhook_router)
 app.include_router(users.router, prefix="/api/users", tags=["users"])

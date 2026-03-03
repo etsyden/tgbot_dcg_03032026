@@ -1,10 +1,9 @@
 import asyncio
 import logging
 from app.bot.main import dp, bot
-from app.bot.handlers import router
 from app.bot.webhook import setup_webhook
-from app.bot.middleware import DbSessionMiddleware
 from app.config import get_settings
+from app.api.main import app  # Expose app for gunicorn (app.main:app)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -13,14 +12,6 @@ settings = get_settings()
 
 
 async def main():
-    # Setup middleware if not already added
-    if not any(isinstance(m, DbSessionMiddleware) for m in dp.update.outer_middleware):
-        dp.update.middleware(DbSessionMiddleware())
-    
-    # Safely include router
-    if router not in dp.sub_routers:
-        dp.include_router(router)
-
     try:
         if settings.WEBHOOK_URL:
             await setup_webhook()

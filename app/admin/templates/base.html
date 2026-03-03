@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Dental Clinic Admin{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/admin/static/css/styles.css">
 </head>
 <body>
     <nav class="navbar">
         <span class="navbar-brand">Dental Clinic Admin</span>
         <div class="navbar-nav">
-            <a href="/" class="nav-link {% if request.url.path == '/' %}active{% endif %}">Dashboard</a>
-            <a href="/users" class="nav-link {% if '/users' in request.url.path %}active{% endif %}">Users</a>
-            <a href="/groups" class="nav-link {% if '/groups' in request.url.path %}active{% endif %}">Groups</a>
-            <a href="/mailings" class="nav-link {% if '/mailings' in request.url.path %}active{% endif %}">Mailings</a>
-            <a href="/menu" class="nav-link {% if '/menu' in request.url.path %}active{% endif %}">Menu</a>
+            <a href="/admin/" class="nav-link {% if request.url.path == '/admin/' %}active{% endif %}">Dashboard</a>
+            <a href="/admin/users" class="nav-link {% if '/users' in request.url.path %}active{% endif %}">Users</a>
+            <a href="/admin/groups" class="nav-link {% if '/groups' in request.url.path %}active{% endif %}">Groups</a>
+            <a href="/admin/mailings" class="nav-link {% if '/mailings' in request.url.path %}active{% endif %}">Mailings</a>
+            <a href="/admin/menu" class="nav-link {% if '/menu' in request.url.path %}active{% endif %}">Menu</a>
         </div>
     </nav>
     
@@ -22,7 +22,7 @@
         {% block content %}{% endblock %}
     </div>
     
-    <script src="/static/js/main.js"></script>
+    <script src="/admin/static/js/main.js"></script>
     {% block scripts %}{% endblock %}
 </body>
 </html>

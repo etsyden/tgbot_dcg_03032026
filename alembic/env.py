@@ -11,6 +11,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from app.database import Base
 from app.config import get_settings
 from sqlalchemy.ext.asyncio import create_async_engine
+from app.models import models # Ensure models are loaded
 
 config = context.config
 settings = get_settings()

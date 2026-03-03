@@ -6,16 +6,15 @@
 set -e
 
 DOMAIN="bot2.dentalcitygroup.ru"
-EMAIL="admin@dentalcitygroup.ru" # Замените на реальный
+EMAIL="admin@dentalcitygroup.ru"
 PROJECT_DIR="/opt/tgbot"
 
 echo "--- Installing dependencies ---"
-apt update
-apt install -y python3-pip python3-venv nginx certbot python3-certbot-nginx git postgresql postgresql-contrib
+apt-get update
+apt-get install -y python3-pip python3-venv nginx certbot python3-certbot-nginx git postgresql postgresql-contrib
 
 echo "--- Setting up directory ---"
 mkdir -p $PROJECT_DIR
-chown $USER:$USER $PROJECT_DIR
 
 if [ ! -d "$PROJECT_DIR/.git" ]; then
     echo "--- Cloning repo ---"
@@ -26,9 +25,8 @@ cd $PROJECT_DIR
 
 echo "--- Setting up venv ---"
 python3 -m venv venv
-source venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
+./venv/bin/pip install --upgrade pip
+./venv/bin/pip install -r requirements.txt
 
 echo "--- Configuring Nginx ---"
 cat > /etc/nginx/sites-available/tgbot <<EOF
@@ -44,7 +42,6 @@ server {
         proxy_set_header X-Forwarded-Proto \$scheme;
     }
 
-    # Static files for admin
     location /static {
         alias $PROJECT_DIR/app/admin/static;
     }
@@ -58,12 +55,13 @@ nginx -t
 systemctl reload nginx
 
 echo "--- Issuing SSL Certificate ---"
-certbot --nginx -d $DOMAIN --non-interactive --agree-tos -m $EMAIL
+# Мы запускаем certbot. Если он не сможет выпустить сертификат (например, из-за DNS), скрипт не упадет.
+certbot --nginx -d $DOMAIN --non-interactive --agree-tos -m $EMAIL || echo "Certbot failed, check DNS and firewall"
 
 echo "--- Configuring Systemd Service ---"
 cat > /etc/systemd/system/tgbot.service <<EOF
 [Unit]
-description=Gunicorn instance to serve Dental Clinic Bot
+Description=Gunicorn instance to serve Dental Clinic Bot
 After=network.target
 
 [Service]
@@ -71,6 +69,8 @@ User=root
 Group=www-data
 WorkingDirectory=$PROJECT_DIR
 Environment="PATH=$PROJECT_DIR/venv/bin"
+# Ensure .env exists or this might fail
+ExecStartPre=/usr/bin/touch $PROJECT_DIR/.env
 EnvironmentFile=$PROJECT_DIR/.env
 ExecStart=$PROJECT_DIR/venv/bin/gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app --bind 127.0.0.1:8000
 
@@ -80,7 +80,6 @@ EOF
 
 systemctl daemon-reload
 systemctl enable tgbot
-systemctl start tgbot
+systemctl start tgbot || echo "Service failed to start, check .env file"
 
 echo "--- DONE! ---"
-echo "Don't forget to setup .env file and GitHub Secrets (SSH_HOST, SSH_USER, SSH_PRIVATE_KEY)"
