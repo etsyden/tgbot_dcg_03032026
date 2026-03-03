@@ -71,6 +71,20 @@ async def cmd_menu(message: Message, db: AsyncSession):
     keyboard = await get_main_menu_builder(db)
     await message.answer("Главное меню:", reply_markup=keyboard)
 
+@router.callback_query(F.data == "get_consultation")
+async def get_consultation_callback(callback: Message, state: FSMContext):
+    await callback.message.answer(
+        "Пожалуйста, поделитесь вашим номером телефона:",
+        reply_markup={
+            "keyboard": [
+                [{"text": "Отправить номер телефона", "request_contact": True}]
+            ],
+            "resize_keyboard": True,
+            "one_time_keyboard": True
+        },
+    )
+    await state.set_state(UserStates.waiting_for_phone)
+
 @router.message(F.contact)
 async def handle_contact(message: Message, db: AsyncSession):
     phone = message.contact.phone_number
