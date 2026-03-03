@@ -1,16 +1,13 @@
-from aiogram import Router
 from aiogram.types import Update
 from fastapi import APIRouter, Request, HTTPException, Header
-from app.bot.main import bot, dp
-from app.bot.handlers import router
+from app.bot.bot_instance import bot, dp
 from app.config import get_settings
 from typing import Optional
 
 settings = get_settings()
 webhook_router = APIRouter()
 
-# Don't create a new Dispatcher here, use the one from app.bot.main
-# dp.include_router(router) is handled in app/main.py or here once
+# The inclusion of router is handled in app/bot/main.py
 
 async def verify_webhook_secret(
     x_telegram_bot_api_secret_token: Optional[str] = Header(None),

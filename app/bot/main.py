@@ -1,21 +1,11 @@
-from aiogram import Bot, Dispatcher
-from aiogram.client.default import DefaultBotProperties
-from aiogram.enums import ParseMode
-from aiogram.fsm.storage.memory import MemoryStorage
-
-from app.config import get_settings
+from app.bot.bot_instance import bot, dp
 from app.bot.handlers import router
 from app.bot.middleware import DbSessionMiddleware
 
-settings = get_settings()
+# Setup middleware and routers
+# This must be done only once. We can do it here as this file is imported by app/main.py
+if not any(isinstance(m, DbSessionMiddleware) for m in dp.update.outer_middleware):
+    dp.update.outer_middleware(DbSessionMiddleware())
 
-bot = Bot(
-    token=settings.TELEGRAM_BOT_TOKEN,
-    default=DefaultBotProperties(parse_mode=ParseMode.HTML),
-)
-storage = MemoryStorage()
-dp = Dispatcher(storage=storage)
-
-# Setup middleware and routers immediately
-dp.update.outer_middleware(DbSessionMiddleware())
-dp.include_router(router)
+if router not in dp.sub_routers:
+    dp.include_router(router)

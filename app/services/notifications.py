@@ -3,7 +3,7 @@ import json
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.models import User
 from app.config import get_settings
-from app.bot.main import bot
+from app.bot.bot_instance import bot
 from aiogram.types import FSInputFile, InlineKeyboardButton, InlineKeyboardMarkup
 
 settings = get_settings()
