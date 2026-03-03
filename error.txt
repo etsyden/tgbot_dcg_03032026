@@ -30,6 +30,166 @@ Traceback (most recent call last):
   File "/opt/tgbot/venv/lib/python3.12/site-packages/aiosqlite/core.py", line 106, in run
     result = function()
              ^^^^^^^^^^
+sqlite3.OperationalError: near "(": syntax error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/tgbot/./venv/bin/alembic", line 6, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/alembic/config.py", line 641, in main
+    CommandLine(prog=prog).main(argv=argv)
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/alembic/config.py", line 631, in main
+    self.run_cmd(cfg, options)
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/alembic/config.py", line 608, in run_cmd
+    fn(
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/alembic/command.py", line 403, in upgrade
+    script.run_env()
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/alembic/script/base.py", line 583, in run_env
+    util.load_python_file(self.dir, "env.py")
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/alembic/util/pyfiles.py", line 95, in load_python_file
+    module = load_module_py(module_id, path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/alembic/util/pyfiles.py", line 113, in load_module_py
+    spec.loader.exec_module(module)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/tgbot/alembic/env.py", line 73, in <module>
+    run_migrations_online()
+  File "/opt/tgbot/alembic/env.py", line 67, in run_migrations_online
+    asyncio.run(run_async_migrations())
+  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/opt/tgbot/alembic/env.py", line 61, in run_async_migrations
+    await connection.run_sync(do_run_migrations)
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/ext/asyncio/engine.py", line 891, in run_sync
+    return await greenlet_spawn(fn, self._proxied, *arg, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 202, in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/tgbot/alembic/env.py", line 51, in do_run_migrations
+    context.run_migrations()
+  File "<string>", line 8, in run_migrations
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/alembic/runtime/environment.py", line 948, in run_migrations
+    self.get_context().run_migrations(**kw)
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/alembic/runtime/migration.py", line 627, in run_migrations
+    step.migration_fn(**kw)
+  File "/opt/tgbot/alembic/versions/e2d0da659a3f_initial_setup.py", line 31, in upgrade
+    op.create_table('mailings',
+  File "<string>", line 8, in create_table
+  File "<string>", line 3, in create_table
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/alembic/operations/ops.py", line 1311, in create_table
+    return operations.invoke(op)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/alembic/operations/base.py", line 445, in invoke
+    return fn(self, operation)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/alembic/operations/toimpl.py", line 131, in create_table
+    operations.impl.create_table(table)
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/alembic/ddl/impl.py", line 366, in create_table
+    self._exec(schema.CreateTable(table))
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/alembic/ddl/impl.py", line 207, in _exec
+    return conn.execute(construct, multiparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/sql/ddl.py", line 181, in _execute_on_connection
+    return connection._execute_ddl(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1528, in _execute_ddl
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2344, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/dialects/sqlite/aiosqlite.py", line 146, in execute
+    self._adapt_connection._handle_exception(error)
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/dialects/sqlite/aiosqlite.py", line 298, in _handle_exception
+    raise error
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/dialects/sqlite/aiosqlite.py", line 128, in execute
+    self.await_(_cursor.execute(operation, parameters))
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 130, in await_only
+    return current.driver.switch(awaitable)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 195, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/aiosqlite/cursor.py", line 48, in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/aiosqlite/cursor.py", line 40, in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/aiosqlite/core.py", line 133, in _execute
+    return await future
+           ^^^^^^^^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/aiosqlite/core.py", line 106, in run
+    result = function()
+             ^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) near "(": syntax error
+[SQL:
+CREATE TABLE mailings (
+        id INTEGER NOT NULL,
+        title VARCHAR NOT NULL,
+        content VARCHAR NOT NULL,
+        media_path VARCHAR,
+        buttons_json VARCHAR,
+        created_at DATETIME DEFAULT now(),
+        PRIMARY KEY (id)
+)
+
+]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+root@cogsieimva:/opt/tgbot# ./venv/bin/alembic upgrade head
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> e2d0da659a3f, initial_setup
+Traceback (most recent call last):
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/dialects/sqlite/aiosqlite.py", line 146, in execute
+    self._adapt_connection._handle_exception(error)
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/dialects/sqlite/aiosqlite.py", line 298, in _handle_exception
+    raise error
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/dialects/sqlite/aiosqlite.py", line 128, in execute
+    self.await_(_cursor.execute(operation, parameters))
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 130, in await_only
+    return current.driver.switch(awaitable)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 195, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/aiosqlite/cursor.py", line 48, in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/aiosqlite/cursor.py", line 40, in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/aiosqlite/core.py", line 133, in _execute
+    return await future
+           ^^^^^^^^^^^^
+  File "/opt/tgbot/venv/lib/python3.12/site-packages/aiosqlite/core.py", line 106, in run
+    result = function()
+             ^^^^^^^^^^
 sqlite3.OperationalError: table groups already exists
 
 The above exception was the direct cause of the following exception:
