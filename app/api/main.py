@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from app.api import users, groups, mailings, menu
 from app.bot.webhook import webhook_router, setup_webhook
 from app.admin.main import admin_app
+import app.bot.main  # Import bot config to register middleware/routers
 
 
 @asynccontextmanager
