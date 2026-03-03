@@ -33,9 +33,8 @@ def parse_start_param(param: str) -> dict:
 
 @router.message(Command("start"))
 async def cmd_start(message: Message, state: FSMContext, db: AsyncSession):
-    start_param = (
-        message.text.split(" ", 1)[1] if len(message.text.split(" ", 1)) > 1 else ""
-    )
+    parts = message.text.split(" ", 1)
+    start_param = parts[1] if len(parts) > 1 else ""
     params = parse_start_param(start_param)
 
     # Use async select
@@ -57,8 +56,8 @@ async def cmd_start(message: Message, state: FSMContext, db: AsyncSession):
         db.add(user)
         await db.commit()
         await db.refresh(user)
-        # Notify admin (async)
-        asyncio.create_task(notify_admin(db, user))
+        # Notify admin
+        await notify_admin(db, user)
 
     keyboard = await get_main_menu_builder(db)
     await message.answer(
@@ -95,7 +94,7 @@ async def handle_contact(message: Message, db: AsyncSession):
     if user:
         user.phone = phone
         await db.commit()
-        # Fire and forget lead creation to not block the bot
+        # Fire and forget lead creation
         asyncio.create_task(create_bitrix_lead(user))
         await message.answer("Спасибо! Мы свяжемся с вами в ближайшее время.")
     else:
