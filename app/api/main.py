@@ -9,15 +9,9 @@ from app.admin.main import admin_app
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    from app.config import get_settings
     import asyncio
-
-    settings = get_settings()
-    try:
-        # Try to setup webhook but don't let it crash the whole app if TG is slow
-        await asyncio.wait_for(setup_webhook(), timeout=10.0)
-    except Exception as e:
-        print(f"Could not setup webhook on startup: {e}")
+    # Run webhook setup in background so it doesn't block startup
+    asyncio.create_task(setup_webhook())
     yield
 
 
