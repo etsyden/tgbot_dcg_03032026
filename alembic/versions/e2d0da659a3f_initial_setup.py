@@ -34,7 +34,7 @@ def upgrade() -> None:
         sa.Column('content', sa.String(), nullable=False),
         sa.Column('media_path', sa.String(), nullable=True),
         sa.Column('buttons_json', sa.String(), nullable=True),
-        sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
+        sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=True),
         sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_mailings_id'), 'mailings', ['id'], unique=False)
@@ -61,7 +61,7 @@ def upgrade() -> None:
         sa.Column('utm_source', sa.String(), nullable=True),
         sa.Column('utm_medium', sa.String(), nullable=True),
         sa.Column('utm_campaign', sa.String(), nullable=True),
-        sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
+        sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=True),
         sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_users_id'), 'users', ['id'], unique=False)
