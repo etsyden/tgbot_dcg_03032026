@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Dental Clinic Admin{% endblock %}
+
+{% block content %}
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">{{ total_users }}</div>
+        <div class="stat-label">Всего пользователей</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ active_users }}</div>
+        <div class="stat-label">Активных пользователей</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ total_groups }}</div>
+        <div class="stat-label">Групп</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ total_mailings }}</div>
+        <div class="stat-label">Рассылок</div>
+    </div>
+</div>
+
+<div class="card">
+    <h3 class="card-title mb-4">Быстрые действия</h3>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="/users" class="btn btn-primary">Пользователи</a>
+        <a href="/groups" class="btn btn-primary">Группы</a>
+        <a href="/mailings" class="btn btn-primary">Рассылки</a>
+        <a href="/menu" class="btn btn-primary">Меню</a>
+    </div>
+</div>
+{% endblock %}

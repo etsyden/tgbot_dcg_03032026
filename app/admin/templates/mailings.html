@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Рассылки - Dental Clinic Admin{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Рассылки</h2>
+        <button class="btn btn-primary" onclick="openModal('mailingModal')">+ Создать рассылку</button>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Содержание</th>
+                <th>Медиа</th>
+                <th>Кнопки</th>
+                <th>Дата</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mailing in mailings %}
+            <tr>
+                <td>{{ mailing.id }}</td>
+                <td>{{ mailing.title }}</td>
+                <td>{{ mailing.content[:50] }}{% if mailing.content|length > 50 %}...{% endif %}</td>
+                <td>{% if mailing.media_path %}Да{% else %}Нет{% endif %}</td>
+                <td>{% if mailing.buttons_json %}Да{% else %}Нет{% endif %}</td>
+                <td>{{ mailing.created_at.strftime('%d.%m.%Y') if mailing.created_at else '-' }}</td>
+                <td>
+                    <button class="btn btn-sm btn-success" onclick="sendMailing({{ mailing.id }}, null, true)">Всем</button>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="7" class="empty-state">Нет рассылок</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div id="mailingModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Создать рассылку</h3>
+            <button class="modal-close" onclick="closeModal('mailingModal')">&times;</button>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Название *</label>
+            <input type="text" id="mailingTitle" class="form-control" placeholder="Введите название">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Содержание *</label>
+            <textarea id="mailingContent" class="form-control" placeholder="Текст рассылки"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Путь к медиа файлу</label>
+            <input type="text" id="mailingMedia" class="form-control" placeholder="/path/to/image.jpg">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Кнопки (JSON)</label>
+            <textarea id="mailingButtons" class="form-control" placeholder='[{"text": "Кнопка 1", "url": "https://..."}]'></textarea>
+            <small class="text-muted">Формат: [{"text": "Текст", "url": "URL"}, ...]</small>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" onclick="closeModal('mailingModal')">Отмена</button>
+            <button class="btn btn-primary" onclick="createMailing()">Создать</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Меню бота - Dental Clinic Admin{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Меню бота</h2>
+        <button class="btn btn-primary" onclick="openModal('menuModal')">+ Добавить пункт</button>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>URL</th>
+                <th>Позиция</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in menu_items %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.url or '-' }}</td>
+                <td>{{ item.position }}</td>
+                <td>
+                    {% if item.is_active %}
+                    <span class="badge badge-success">Активен</span>
+                    {% else %}
+                    <span class="badge badge-danger">Отключен</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-danger" onclick="deleteMenuItem({{ item.id }})">Удалить</button>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="empty-state">Нет пунктов меню</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div id="menuModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Добавить пункт меню</h3>
+            <button class="modal-close" onclick="closeModal('menuModal')">&times;</button>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Название *</label>
+            <input type="text" id="menuName" class="form-control" placeholder="Например: Получить консультацию">
+        </div>
+        <div class="form-group">
+            <label class="form-label">URL</label>
+            <input type="text" id="menuUrl" class="form-control" placeholder="https://example.com">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Позиция</label>
+            <input type="number" id="menuPosition" class="form-control" placeholder="0" value="0">
+        </div>
+        <div class="modal-footer">
+            <button class="btn" onclick="closeModal('menuModal')">Отмена</button>
+            <button class="btn btn-primary" onclick="createMenuItem()">Создать</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
